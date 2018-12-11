@@ -23,8 +23,8 @@ export class FindManga extends React.Component {
 
   handleChange(evt) {
     this.setState({
+        load: false,
         value: evt.target.value,
-        load: false
     });
   }
 
@@ -42,7 +42,7 @@ export class FindManga extends React.Component {
           />
           <button
             type="submit"
-            class="btn btn-primary ml-2"
+            className="btn btn-primary ml-2"
             onClick={this.handleClick}
           >
             Chercher

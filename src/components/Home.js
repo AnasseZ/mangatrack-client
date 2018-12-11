@@ -1,5 +1,4 @@
 import React from "react";
-import MangasGrid from "./MangasGrid";
 import { FindManga } from "./FindManga";
 
 export default class Home extends React.Component {

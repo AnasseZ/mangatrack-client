@@ -153,3 +153,7 @@ h1,h2,h3,h4,h5,h6, p {
 .card-img-top:hover {
   transform: scale(1.1); 
 }
+
+#loading-icon, #white-text {
+  color: white;
+}

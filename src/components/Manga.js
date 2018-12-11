@@ -16,6 +16,7 @@ export default class Manga extends React.Component {
     }
 
     addDefaultSrc(ev){
+        console.log("change l'url");
         ev.target.src = this.props.manga.img;
       }
 
@@ -25,7 +26,7 @@ export default class Manga extends React.Component {
         return (
             <div className="col-sm-3">
                 <div className="card border-0">
-                    <img className="card-img-top" src={manga.imgFixed} alt="Image manga" onClick={this.choseManga} onError={this.addDefaultSrc}/>
+                    <img className="card-img-top" src={manga.imgFixed} alt="Manga cover" onClick={this.choseManga} onError={this.addDefaultSrc}/>
                     <div className="card-body">
                         <h5 className="card-title">
                         {

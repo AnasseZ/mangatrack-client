@@ -1,6 +1,5 @@
 import React from "react";
 import Manga from "./Manga";
-import MangaServices from "../services/MangaServices";
 
 export default class MangasGrid extends React.Component {
   constructor(props) {
@@ -35,17 +34,19 @@ export default class MangasGrid extends React.Component {
       );
   }
 
+
+
   render() {
     const { error, isLoaded, mangas } = this.state;
     if (error) {
-      return <div>Error: {error.message}</div>;
+      return <div id="white-text"> <i class="fas fa-exclamation-circle"></i> Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>Loading...</div>;
+      return <div><i id="loading-icon" className="fas fa-spinner fa-spin fa-2x"></i></div>;
     } else {
       return (
         <div className="row row-eq-height">
           {mangas.map((manga, index) => {
-            return <Manga manga={manga} />;
+            return <Manga manga={manga} key={index} />;
           })}
         </div>
       );
