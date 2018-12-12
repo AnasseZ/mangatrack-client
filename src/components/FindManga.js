@@ -4,11 +4,11 @@ import MangasGrid from "./MangasGrid";
 export class FindManga extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
-        value: "",
-        load: false,
-        manga: "",
-     };
+    this.state = {
+      value: "",
+      load: false,
+      manga: ""
+    };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -16,15 +16,15 @@ export class FindManga extends React.Component {
 
   handleClick = () => {
     this.setState({
-        load: true,
-        manga: this.state.value
+      load: true,
+      manga: this.state.value
     });
   };
 
   handleChange(evt) {
     this.setState({
-        load: false,
-        value: evt.target.value,
+      load: false,
+      value: evt.target.value
     });
   }
 
@@ -49,9 +49,7 @@ export class FindManga extends React.Component {
           </button>
         </div>
         <br />
-        {       
-            this.state.load  ?  <MangasGrid mangaSearched={this.state.manga}/> : ''
-        }      
+        {this.state.load ? <MangasGrid mangaSearched={this.state.manga} /> : ""}
       </div>
     );
   }

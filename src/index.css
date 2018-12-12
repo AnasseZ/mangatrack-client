@@ -157,3 +157,27 @@ h1,h2,h3,h4,h5,h6, p {
 #loading-icon, #white-text {
   color: white;
 }
+
+.img-modal {
+  width: 7rem;
+  height: 10rem;
+}
+
+.modal-title {
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+
+}
+
+.chap-title {
+  font-size: 1rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #a2a2a2;
+  margin-top: 5px;
+}
+.manga-title {
+  font-size: 1.5rem;
+  color: black;
+}
