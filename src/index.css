@@ -6,9 +6,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #35465d;;
-  background: -webkit-linear-gradient(to bottom,#192740,#35465d);
-  background: linear-gradient(to bottom,#192740,#35465d);
+  background: #35465d;
+  background: -webkit-linear-gradient(to bottom, #192740, #35465d);
+  background: linear-gradient(to bottom, #192740, #35465d);
   min-height: 100vh;
 }
 
@@ -118,7 +118,7 @@ mainNav {
   }
 }
 
-/* MANGA CARD */ 
+/* MANGA CARD */
 
 .card {
   width: 13rem;
@@ -126,9 +126,15 @@ mainNav {
 }
 
 /* COMMON STYLE */
-h1,h2,h3,h4,h5,h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   color: white;
-  font-family: 'PT Sans';
+  font-family: "PT Sans";
 }
 
 .col-sm-3 {
@@ -143,7 +149,7 @@ h1,h2,h3,h4,h5,h6, p {
 .card-img-top {
   width: 13rem;
   height: 16rem;
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 
 .fa-plus-circle {
@@ -151,10 +157,11 @@ h1,h2,h3,h4,h5,h6, p {
 }
 
 .card-img-top:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
-#loading-icon, #white-text {
+#loading-icon,
+#white-text {
   color: white;
 }
 
@@ -165,9 +172,8 @@ h1,h2,h3,h4,h5,h6, p {
 
 .modal-title {
   color: black;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: bold;
-
 }
 
 .chap-title {
@@ -180,4 +186,23 @@ h1,h2,h3,h4,h5,h6, p {
 .manga-title {
   font-size: 1.5rem;
   color: black;
+}
+
+#mangaSearch,
+#alertInfo {
+  width: 100%;
+}
+
+#btnSubManga {
+  background-color: white;
+  color: #35465d;
+  border-color: #35465d;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  #alertInfo {
+    width: 90%;
+  }
 }

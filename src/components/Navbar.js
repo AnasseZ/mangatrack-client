@@ -7,7 +7,7 @@ class Navbar extends Component {
         className="navbar navbar-expand-lg navbar-light"
         id="mainNav"
       >
-        <div className="container">
+        <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img src="https://i.pinimg.com/originals/0d/8d/07/0d8d07a763e83f93acf810ae2c523bd7.png" alt="logo" id="logo"/>
           </a>

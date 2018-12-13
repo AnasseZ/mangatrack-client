@@ -27,30 +27,35 @@ export class FindManga extends React.Component {
       value: evt.target.value
     });
   }
-
   render() {
     return (
-      <div>
-        <div className="form-inline">
-          <input
-            value={this.state.value}
-            type="text"
-            className="form-control"
-            id="mangaSearch"
-            placeholder="Chercher un manga"
-            onChange={this.handleChange}
-          />
-          <button
-            type="submit"
-            className="btn btn-primary ml-2"
-            onClick={this.handleClick}
-          >
-            Chercher
-          </button>
+      <>
+        <div className="row justify-content-center">
+          <div className="col-8 col-sm-4">
+            <input
+              value={this.state.value}
+              type="text"
+              className="form-control"
+              id="mangaSearch"
+              placeholder="Chercher un manga"
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="col-4 col-sm-2 text-left pl-0">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={this.handleClick}
+              id="btnSubManga"
+            >
+              Chercher
+            </button>
+          </div>
         </div>
         <br />
-        {this.state.load ? <MangasGrid mangaSearched={this.state.manga} /> : ""}
-      </div>
+        <br />
+        {this.state.load ? <MangasGrid mangaSearched={this.state.manga}/> : ""}
+      </>
     );
   }
 }

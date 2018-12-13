@@ -1,5 +1,6 @@
 import React from "react";
 import Manga from "./Manga";
+import AlertC from "./AlertC";
 
 export default class MangasGrid extends React.Component {
   constructor(props) {
@@ -8,12 +9,15 @@ export default class MangasGrid extends React.Component {
       error: null,
       isLoaded: false,
       mangaSearched: this.props.mangaSearched,
-      mangas: []
+      mangas: [],
+      alertContent: null
     };
   }
 
   componentDidMount() {
-    fetch("https://localhost:8443/getMatchingByName/" + this.state.mangaSearched)
+    fetch(
+      "https://localhost:8443/getMatchingByName/" + this.state.mangaSearched
+    )
       .then(res => res.json())
       .then(
         result => {
@@ -34,21 +38,37 @@ export default class MangasGrid extends React.Component {
       );
   }
 
-
+  setAlertContent(param) {
+    this.setState({
+      alertContent: param
+    });
+  }
 
   render() {
     const { error, isLoaded, mangas } = this.state;
     if (error) {
-      return <div id="white-text"> <i class="fas fa-exclamation-circle"></i> Error: {error.message}</div>;
+      return (
+        <div id="white-text">
+          {" "}
+          <i class="fas fa-exclamation-circle" /> Error: {error.message}
+        </div>
+      );
     } else if (!isLoaded) {
-      return <div><i id="loading-icon" className="fas fa-spinner fa-spin fa-2x"></i></div>;
+      return (
+        <div>
+          <i id="loading-icon" className="fas fa-spinner fa-spin fa-2x" />
+        </div>
+      );
     } else {
       return (
-        <div className="row row-eq-height">
-          {mangas.map((manga, index) => {
-            return <Manga manga={manga} key={index} />;
-          })}
-        </div>
+        <>
+          <AlertC information={this.state.alertContent} />
+          <div className="row row-eq-height">
+            {mangas.map((manga, index) => {
+              return <Manga manga={manga} key={index} callback={this.setAlertContent.bind(this)}/>;
+            })}
+          </div>
+        </>
       );
     }
   }

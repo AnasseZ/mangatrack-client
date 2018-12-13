@@ -11,11 +11,13 @@ export default class Manga extends React.Component {
       error: null,
       mangaEntity: {},
       isPushed: false,
+      imgErrors: 0,
     };
 
     this.choseManga = this.choseManga.bind(this);
     this.addDefaultSrc = this.addDefaultSrc.bind(this);
     this.followManga = this.followManga.bind(this);
+    this.sendAlertContent = this.sendAlertContent.bind(this);
   }
 
   choseManga() {
@@ -45,53 +47,87 @@ export default class Manga extends React.Component {
   }
 
   addDefaultSrc(ev) {
-    ev.target.src = this.props.manga.img;
+    if(this.state.imgErrors === 0) {
+      ev.target.src = this.props.manga.img;
+      this.setState({
+        imgErrors: this.state.imgErrors +1
+      });
+    }
+    else if(this.state.imgErrors === 1) {
+      ev.target.src = this.props.manga.img;
+      this.setState({
+        imgErrors: this.state.imgErrors + 1
+      });
+    } else {
+      ev.target.src = "/robot-error-codes.png";
+    }
+  }
+
+  sendAlertContent(param) {
+    this.props.callback(param);
+  }
+
+  sendSuccessAlert() {
+    return {
+      content: "Bravo ! Vous suivez maintenant " + this.props.manga.title + ".",
+      class: "info"
+    };
+  }
+
+  sendErrorAlert() {
+    return {
+      content:
+        "Erreur ! Vous n'avez pas pu suivre " + this.props.manga.title + ".",
+      class: "danger"
+    };
   }
 
   followManga() {
-
     let mangaSend = {
-        title: this.props.manga.title,
-        mangadexUrl: this.state.mangaTracked.url,
-        currentChapter: '0'
+      title: this.props.manga.title,
+      mangadexUrl: this.state.mangaTracked.url,
+      currentChapter: "0"
     };
 
     fetch("https://localhost:8443/mangas", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(mangaSend)
-      })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(mangaSend)
+    })
       .then(res => res.json())
       .then(
         result => {
-            console.log("dans le result ok");
+          console.log("dans le result ok");
           this.setState({
             isPushed: true,
             mangaEntity: result
           });
+          this.sendAlertContent(this.sendSuccessAlert());
         },
         error => {
-            console.log("dans le result erreur");
+          console.log("dans le result erreur");
 
           this.setState({
             isPushed: true,
             error
           });
+          this.sendAlertContent(this.sendSuccessAlert());
         }
       );
 
-      this.setState({
-        modal: !this.state.modal
-      });
+    this.setState({
+      modal: !this.state.modal
+    });
   }
 
   render() {
     const { manga } = this.props;
 
-    const mangaTitle = manga.title.length > 30
+    const mangaTitle =
+      manga.title.length > 30
         ? manga.title.substring(0, 30) + "..."
         : manga.title;
 
@@ -106,8 +142,10 @@ export default class Manga extends React.Component {
             onError={this.addDefaultSrc}
           />
           <div className="card-body">
-            <h5 className="card-title">
-            {mangaTitle}
+            <h5
+              className="card-title"
+            >
+              {mangaTitle}
             </h5>
           </div>
         </div>
@@ -116,7 +154,9 @@ export default class Manga extends React.Component {
           toggle={this.choseManga}
           className={this.props.choseManga}
         >
-          <ModalHeader toggle={this.toggle} className="modal-title">Suivre ce manga ?</ModalHeader>
+          <ModalHeader toggle={this.toggle} className="modal-title">
+            Suivre ce manga ?
+          </ModalHeader>
           <ModalBody>
             <div className="container">
               <div className="row">
@@ -128,8 +168,10 @@ export default class Manga extends React.Component {
                   />
                 </div>
                 <div className="col-sm-8">
-                    <h2 className="manga-title">{mangaTitle}</h2>
-                    <h3 className="chap-title">Dernier chapitre: {this.state.mangaTracked.chapterNumber}</h3>
+                  <h2 className="manga-title">{mangaTitle}</h2>
+                  <h3 className="chap-title">
+                    Dernier chapitre: {this.state.mangaTracked.chapterNumber}
+                  </h3>
                 </div>
               </div>
             </div>
