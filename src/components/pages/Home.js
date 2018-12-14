@@ -1,6 +1,6 @@
 import React from "react";
-import { FindManga } from "./FindManga";
-import { Title } from "./Title";
+import { FindManga } from "../FindManga";
+import { Title } from "../Title";
 
 export default class Home extends React.Component {
   render() {
@@ -8,10 +8,10 @@ export default class Home extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col align-self-center">
-            <Title title="Suivre un manga" />
+            <Title title="Accueil" />
             <br />
             <br />
-            <FindManga />
+           Ici
           </div>
         </div>
       </div>

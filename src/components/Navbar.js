@@ -1,15 +1,17 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Navbar extends Component {
   render() {
     return (
-      <nav
-        className="navbar navbar-expand-lg navbar-light"
-        id="mainNav"
-      >
+      <nav className="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            <img src="https://i.pinimg.com/originals/0d/8d/07/0d8d07a763e83f93acf810ae2c523bd7.png" alt="logo" id="logo"/>
+            <img
+              src="https://i.pinimg.com/originals/0d/8d/07/0d8d07a763e83f93acf810ae2c523bd7.png"
+              alt="logo"
+              id="logo"
+            />
           </a>
           <button
             className="navbar-toggler navbar-toggler-right"
@@ -26,19 +28,19 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link" href="index.html">
+                <Link className="nav-link" to="/">
                   Accueil
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#footer">
-                  Chercher un manga
-                </a>
+                <Link className="nav-link" to="/search-manga">
+                  Suivre un manga
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#footer">
-                Se connecter
-                </a>
+                <Link className="nav-link" to="/">
+                  Se connecter
+                </Link>
               </li>
             </ul>
           </div>
