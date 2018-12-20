@@ -30,14 +30,22 @@ mainNav {
 }
 #mainNav .navbar-brand {
   font-weight: 800;
-  color: #343a40;
+  color: white;
 }
 #mainNav .navbar-toggler {
   font-size: 12px;
   font-weight: 800;
   padding: 13px;
   text-transform: uppercase;
-  color: #343a40;
+  color: white;
+}
+
+.fa-bars {
+  padding-left: 0.2em;
+}
+
+#mainNav .navbar-nav > li.nav-item > a {
+  color: #fff;
 }
 #mainNav .navbar-nav > li.nav-item > a {
   font-size: 12px;
@@ -67,11 +75,6 @@ mainNav {
   #mainNav .navbar-nav > li.nav-item > a:hover {
     color: rgba(255, 255, 255, 0.8);
   }
-  #mainNav .navbar-nav > li.nav-item > a:hover {
-    border-style: solid;
-    border-bottom-color: bisque;
-    border-width: 0px 0px 2px 0px;
-  }
 }
 
 @media only screen and (min-width: 992px) {
@@ -98,17 +101,7 @@ mainNav {
   #mainNav.is-fixed .navbar-brand {
     color: #212529;
   }
-  #mainNav.is-fixed .navbar-brand:focus,
-  #mainNav.is-fixed .navbar-brand:hover {
-    color: #0085a1;
-  }
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a {
-    color: #212529;
-  }
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus,
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
-    color: #0085a1;
-  }
+  
   #mainNav.is-visible {
     -webkit-transform: translate3d(0, 100%, 0);
     -moz-transform: translate3d(0, 100%, 0);
@@ -119,7 +112,6 @@ mainNav {
 }
 
 /* MANGA CARD */
-
 .card {
   width: 13rem;
   background: transparent;
@@ -135,9 +127,6 @@ h6,
 p {
   color: white;
   font-family: "PT Sans";
-}
-
-.col-sm-3 {
 }
 
 /* LOGO */
@@ -200,9 +189,27 @@ p {
   font-weight: 600;
   text-transform: uppercase;
 }
-
+/* TABLETTES, TELEPHONES */
 @media (max-width: 768px) {
   #alertInfo {
     width: 90%;
   }
+
+  #btnSignIn {
+    margin-top: 0.4em;
+
+  }
+}
+
+#bntLogin {
+  margin-right: 0.4em;
+  border-radius: 0.2em;
+}
+
+#btnSignIn {
+  border-radius: 0.2em;
+}
+
+#btnFormLogin {
+  width: 100%;
 }

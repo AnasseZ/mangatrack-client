@@ -11,7 +11,7 @@ export default class Home extends React.Component {
             <Title title="Accueil" />
             <br />
             <br />
-           Ici
+           Ici home 
           </div>
         </div>
       </div>
