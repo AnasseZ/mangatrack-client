@@ -1,5 +1,6 @@
 import React from "react";
 import MangasGrid from "./MangasGrid";
+import { AuthConsumer } from "../contexts/AuthContext";
 
 export class FindManga extends React.Component {
   constructor(props) {
@@ -54,7 +55,15 @@ export class FindManga extends React.Component {
         </div>
         <br />
         <br />
-        {this.state.load ? <MangasGrid mangaSearched={this.state.manga}/> : ""}
+        <AuthConsumer>
+          {({ apiRoot }) =>
+            this.state.load ? (
+              <MangasGrid mangaSearched={this.state.manga} apiRoot={apiRoot} />
+            ) : (
+              ""
+            )
+          }
+        </AuthConsumer>
       </>
     );
   }

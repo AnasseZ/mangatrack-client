@@ -6,7 +6,7 @@ class NavOffline extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div className="container-fluid">
-          <a className="navbar-brand" onClick={this.props.login}>
+          <a className="navbar-brand" href="/">
             <img
               src="https://i.pinimg.com/originals/0d/8d/07/0d8d07a763e83f93acf810ae2c523bd7.png"
               alt="logo"
@@ -38,7 +38,7 @@ class NavOffline extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" onClick={this.props.logout}>
+                <a className="nav-link" href="/" onClick={this.props.logout}>
                   Se déconnecter
                 </a>
               </li>

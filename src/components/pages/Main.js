@@ -1,9 +1,10 @@
 import React from "react";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import SearchManga from "./SearchManga";
 import Login from "./Login";
 import PrivateRoute from "../PrivateRoute";
+import Dashboard from "./Dashboard";
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -16,6 +17,7 @@ export const Main = () => (
       <Route exact path="/" component={Home} />
       <Route path="/login" component={Login} />
       <PrivateRoute path="/search-manga" component={SearchManga} />
+      <PrivateRoute path="/dashboard" component={Dashboard} />
     </Switch>
   </main>
 );

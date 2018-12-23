@@ -1,6 +1,7 @@
 import React from "react";
 import Manga from "./Manga";
 import AlertC from "./AlertC";
+import { AuthConsumer } from "../contexts/AuthContext";
 
 export default class MangasGrid extends React.Component {
   constructor(props) {
@@ -15,9 +16,7 @@ export default class MangasGrid extends React.Component {
   }
 
   componentDidMount() {
-    fetch(
-      "https://localhost:8443/getMatchingByName/" + this.state.mangaSearched
-    )
+    fetch(this.props.apiRoot + "getMatchingByName/" + this.state.mangaSearched)
       .then(res => res.json())
       .then(
         result => {
@@ -65,7 +64,18 @@ export default class MangasGrid extends React.Component {
           <AlertC information={this.state.alertContent} />
           <div className="row row-eq-height">
             {mangas.map((manga, index) => {
-              return <Manga manga={manga} key={index} callback={this.setAlertContent.bind(this)}/>;
+              return (
+                <AuthConsumer>
+                  { ({ apiRoot}) =>
+                    <Manga
+                    manga={manga}
+                    key={index}
+                    callback={this.setAlertContent.bind(this)}
+                  />
+                  }
+                  
+                </AuthConsumer>
+              );
             })}
           </div>
         </>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import { Popover, PopoverHeader, PopoverBody } from "reactstrap";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 
 class NavOffline extends Component {
   constructor(props) {
@@ -28,11 +28,19 @@ class NavOffline extends Component {
     });
   }
 
+  register() {
+
+  }
+
+  loginCheck() {
+
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div className="container-fluid">
-          <a className="navbar-brand" onClick={this.props.login}>
+          <a className="navbar-brand" href="/">
             <img
               src="https://i.pinimg.com/originals/0d/8d/07/0d8d07a763e83f93acf810ae2c523bd7.png"
               alt="logo"
@@ -80,12 +88,12 @@ class NavOffline extends Component {
                     </h6>
                     <Form>
                       <FormGroup>
-                        <Input
-                          type="email"
-                          name="email"
-                          id="emailLogin"
-                          placeholder="E-mail"
-                        />
+                      <Input
+                            type="text"
+                            name="username"
+                            id="usernameLogin"
+                            placeholder="Nom d'utilisateur"
+                          />
                       </FormGroup>
                       <FormGroup>
                         <Input
@@ -100,7 +108,7 @@ class NavOffline extends Component {
                       </Button>
                     </Form>
                     <hr />
-                    Pas de compte ? <a href="#" onClick={() => {this.toggleLoginPopin(); this.toggleSignInPopin()}}>S'inscrire.</a>
+                    Pas de compte ? <a href="/" onClick={() => {this.toggleLoginPopin(); this.toggleSignInPopin()}}>S'inscrire.</a>
                   </PopoverBody>
                 </Popover>
               </li>
@@ -122,9 +130,9 @@ class NavOffline extends Component {
                         <FormGroup>
                           <Input
                             type="text"
-                            name="name"
-                            id="name"
-                            placeholder="Nom"
+                            name="username"
+                            id="username"
+                            placeholder="Nom d'utilisateur"
                           />
                         </FormGroup>
                         <Input
@@ -147,7 +155,7 @@ class NavOffline extends Component {
                       </Button>
                     </Form>
                     <hr />
-                    Vous avez déjà un compte ? <a href="#" onClick={() => {this.toggleSignInPopin(); this.toggleLoginPopin()}}>Se connecter</a>
+                    Vous avez déjà un compte ? <a href="/" onClick={() => {this.toggleSignInPopin(); this.toggleLoginPopin()}}>Se connecter</a>
                   </PopoverBody>
                 </Popover>
               </li>
