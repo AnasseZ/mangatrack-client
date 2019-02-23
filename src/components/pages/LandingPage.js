@@ -10,7 +10,7 @@ export default class LandingPage extends React.Component {
             <Title title="Landing page" />
             <br />
             <br />
-           Ici landing page 
+            <p style={{color: "white"}}>Ici landing page </p>
           </div>
         </div>
       </div>

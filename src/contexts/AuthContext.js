@@ -1,35 +1,48 @@
 import React from "react";
+import * as jwt_decode from "jwt-decode";
+
 import { apiRoot } from "../constantes/apiInformations";
-import { getUserById } from "../services/UserService";
+import { getUserById, getUserToken } from "../services/UserService";
+import LoadingPage from "../components/pages/LoadingPage";
 
 const AuthContext = React.createContext();
 
 const tokenName = "auth_token";
+const storedUserId = "auth_userId";
 
 class AuthProvider extends React.Component {
-
   constructor() {
     super();
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.verifyUser = this.verifyUser.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.updateError = this.updateError.bind(this);
+    this.userConnexionOk = this.userConnexionOk.bind(this);
+    this.userConnexionError = this.userConnexionError.bind(this);
     this.updateIsAuth = this.updateIsAuth.bind(this);
+    this.updateIsLoaded = this.updateIsLoaded.bind(this);
+    this.updateToken = this.updateToken.bind(this);
+    this.setToken = this.setToken.bind(this);
 
     this.state = {
+      isLoaded: false,
       isAuth: false,
       apiRoot: apiRoot,
       token: "",
-      userId: "" ,
       user: null,
       error: null
     };
   }
 
-  login() {
-    alert(this.state.apiRoot);
-    setTimeout(() => this.setState({ isAuth: true }), 1000);
+  login(userId, password) {
+    getUserToken(
+      userId,
+      password,
+      token => {
+        this.setToken(token);
+        this.verifyUser();
+      },
+      this.userConnexionError
+    );
   }
 
   componentDidMount() {
@@ -39,61 +52,84 @@ class AuthProvider extends React.Component {
   logout() {
     this.updateIsAuth(false);
     localStorage.removeItem(tokenName);
+    localStorage.removeItem(storedUserId);
   }
 
-  updateUser(user) {
+  userConnexionOk(user) {
     this.setState({ user: user });
+    this.updateIsAuth(true);
+    this.updateIsLoaded(true);
+
+    // pas d'erreur token OK et userId aussi
+    this.updateToken();
   }
 
-  updateError(error) {
+  updateIsLoaded(isLoaded) {
+    this.setState({ isLoaded: isLoaded });
+  }
+
+  updateToken() {
+    this.setState({ token: localStorage.getItem(tokenName) });
+  }
+
+  setToken(token) {
+    localStorage.setItem(tokenName, token.token);
+
+    const jtwDecoded = jwt_decode(token.token);
+    localStorage.setItem(storedUserId, jtwDecoded["id"]);
+  }
+
+  userConnexionError(error) {
     this.setState({ error: error });
+    this.updateIsLoaded(true);
+
+    // Erreur donc token réinitialisé et userId aussi
+    localStorage.removeItem(tokenName);
+    localStorage.removeItem(storedUserId);
+
+    this.updateToken();
   }
 
   updateIsAuth(isAuth) {
     this.setState({ isAuth: isAuth });
-
   }
 
   verifyUser() {
-    localStorage.setItem(tokenName, "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NDU1MDUzMTAsImV4cCI6MTU1Mzk0OTc1NCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoibWFoIn0.NNqgNj3hozMZf9YbHqymDfjA0Rum2a8twt3__PZnazDqhDkmsdaqdDHaEcIHBCuhKG9N51_VTZftNL-U9XbQ7UKniEivmZg5K7ZP4rNCdic9QXAOl3l5thLxKHWch1usGvNktfXdSbOI32bfMRZR3ZZZx5zA5vg4j24yttv-_5j_GS1vt7qW8muj22YD88sxuFacXBnr_irChBfyh2DuXefcOHrVzXHVJequJRzaVl_6es7ekne8XyMl7CoeR4Xbs6d6xFlY6MDfaK4wRt8cnKdArkkraA_t8syCvHHiEpSnje240TLxlFkcrjLOS5VseY3zemLVUjlmWPJZSl7GWyDA5uBUKenvM8XLer4nKRx5iOuObFKjiQVnGQ0Yy8CxixDFVkgNgFmVM5xHl6YLTf25oOsVsHjcDjL40IReW6mh_YGMYI08uVE4fFYfcUDfBtRDSEFTzdsOdse8wVuwaPAuxxzQZWVhShh9ly1zaLNcUYrJ8pbuuKE9rMyh2gDP7maNgdt3Xr7iCfptOsHGiQ_G2FO6QUxumpJ7urgyZzXmfFq9sJ4vM4F-Mrh2r0lnQK5basGB6hArtlKCoJULZ0lFTadTS5XQ7A_feQnK_v-ixVWa9LUqrxP5VN2fClz4m7-kX550h_FsHYomCxGd9RaN6OrpN1AEvvlt4YxdG5w");
-    localStorage.setItem(userId, "a0b9e3cd-51a0-42ee-9438-e6a89574dca9");
     let tokenStored = localStorage.getItem(tokenName);
-    let userId = localStorage.getItem("userId");
+    let userId = localStorage.getItem(storedUserId);
 
-
-    console.log(tokenStored, " token dans le localstore");
-    console.log(userId, " userId dans le localstore");
-
-    if (tokenStored !== null && userId !== "") {
+    // Si le token et userId existent ( user deja co... on verifie)
+    if (tokenStored !== null && userId !== null) {
       // envoyer au serveur le token pour recuperer son profil
-      getUserById(userId, tokenStored, this.updateUser, this.updateError)
-      if (this.state.user !== null && this.state.error === null/* token valide */) {
-        // On sauvegarde le token dans le localStorage pour la prochaine reouverture de l'appli
-        // user OK
-        console.log("user bien recuperer", this.state.user);
-        this.updateIsAuth(true);        
-      } else {
-        // Probleme lors de la récupération de l'user
-        console.log("l'erreur", this.state.error)
-        localStorage.setItem(tokenName, "");
-        this.updateIsAuth(false);
-      }
+      getUserById(
+        userId,
+        tokenStored,
+        this.userConnexionOk,
+        this.userConnexionError
+      );
+    } else {
+      // Premiere visite, on load la page principale
+      this.updateIsLoaded(true);
     }
-
   }
 
   render() {
-    return (
+    const { isLoaded } = this.state;
+    return isLoaded === true ? (
       <AuthContext.Provider
         value={{
           isAuth: this.state.isAuth,
           apiRoot: this.state.apiRoot,
           login: this.login,
-          logout: this.logout
+          logout: this.logout,
+          user: this.state.user,
+          token: this.state.token
         }}
       >
         {this.props.children}
       </AuthContext.Provider>
+    ) : (
+      <LoadingPage />
     );
   }
 }

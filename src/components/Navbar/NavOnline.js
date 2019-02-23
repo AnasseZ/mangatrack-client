@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import  ProfilIcon  from "../ProfilIcon";
 
 class NavOffline extends Component {
   render() {
@@ -26,7 +27,7 @@ class NavOffline extends Component {
             <i className="fa fa-bars" />
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
-            <ul className="navbar-nav ml-auto">
+            <ul className="navbar-nav ml-auto align-items-center">
               <li className="nav-item">
                 <Link className="nav-link" to="/dashboard">
                   Mes mangas
@@ -38,9 +39,7 @@ class NavOffline extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/" onClick={this.props.logout}>
-                  Se déconnecter
-                </a>
+                <ProfilIcon user={this.props.user} />
               </li>
             </ul>
           </div>

@@ -4,8 +4,10 @@ import { AuthConsumer } from "../../contexts/AuthContext";
 
 export default class Login extends React.Component {
   render() {
-    let { from } = this.props.location.state || { from: { pathname: "/" } };
+    console.log(this.props);
+    const { message } = this.props.location.state || {message: "Entrez vos identifants"};
 
+    console.log(message);
     return (
       <AuthConsumer>
         {({ login, isAuth }) =>
@@ -13,8 +15,8 @@ export default class Login extends React.Component {
             <div>Déjà connecté</div>
           ) : (
             <div>
-              <p>You must log in to view the page at {from.pathname}</p>
-              <button onClick={login}>Log in</button>
+              <h1>{message}</h1>
+              <button onClick={login}>Se connecter</button>
             </div>
           )
         }

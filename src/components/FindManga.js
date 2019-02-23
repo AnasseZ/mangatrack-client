@@ -30,7 +30,7 @@ export class FindManga extends React.Component {
   }
   render() {
     return (
-      <>
+      <React.Fragment>
         <div className="row justify-content-center">
           <div className="col-8 col-sm-4">
             <input
@@ -48,6 +48,7 @@ export class FindManga extends React.Component {
               className="btn btn-primary"
               onClick={this.handleClick}
               id="btnSubManga"
+              disabled={!this.state.value}
             >
               Chercher
             </button>
@@ -64,7 +65,7 @@ export class FindManga extends React.Component {
             )
           }
         </AuthConsumer>
-      </>
+      </React.Fragment>
     );
   }
 }

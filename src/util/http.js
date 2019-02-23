@@ -1,7 +1,25 @@
 const request = (url, requestOptions, doWhenOK, doWhenError) => {
-  fetch(url,requestOptions)
-    .then(res => res.json())
-    .then(result => doWhenOK(), error => doWhenError());
+  fetch(url, requestOptions)
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      throw new Error("error");
+    })
+    .then(
+      result => {
+        // resultat certes mais probleme lors de la requete donc erreur quand même
+        if (result.code !== undefined && result.message !== undefined) {
+          doWhenError(result);
+        } else {
+          doWhenOK(result);
+        }
+      },
+      error => {
+        doWhenError(error);
+      }
+    );
 };
 
 const authHeaders = (token = null) =>
@@ -18,7 +36,7 @@ export const get = (url, doWhenOK, doWhenError, token = null) =>
     doWhenError
   );
 
-export const post = (url, doWhenOK, doWhenError, data, token = null) =>
+export const post = (url, data, doWhenOK, doWhenError, token = null) =>
   request(
     url,
     {
@@ -26,6 +44,7 @@ export const post = (url, doWhenOK, doWhenError, data, token = null) =>
       body: JSON.stringify(data),
       headers: Object.assign(
         {
+          Accept: "application/json",
           "Content-Type": "application/json"
         },
         authHeaders(token)

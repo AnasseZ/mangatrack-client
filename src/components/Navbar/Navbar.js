@@ -7,8 +7,8 @@ import NavOffline from "./NavOffline";
 
 export default () => (
   <AuthConsumer>
-    {({ isAuth, login, logout }) =>
-      isAuth ? <NavOnline logout={logout}/> : <NavOffline login={login}/>
+    {({ isAuth, login, logout, user }) =>
+      isAuth ? <NavOnline logout={logout} user={user}/> : <NavOffline login={login}/>
     }
   </AuthConsumer>
 );

@@ -2,6 +2,8 @@ import React from "react";
 import Manga from "./Manga";
 import AlertC from "./AlertC";
 import { AuthConsumer } from "../contexts/AuthContext";
+import Loading from "./Loading";
+import { searchMangaByName } from "../services/MangaService";
 
 export default class MangasGrid extends React.Component {
   constructor(props) {
@@ -13,28 +15,31 @@ export default class MangasGrid extends React.Component {
       mangas: [],
       alertContent: null
     };
+
+    this.searchMangaOk = this.searchMangaOk.bind(this);
+    this.searchMangaError = this.searchMangaError.bind(this);
   }
 
   componentDidMount() {
-    fetch(this.props.apiRoot + "getMatchingByName/" + this.state.mangaSearched)
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            mangas: result
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+    searchMangaByName(
+      this.state.mangaSearched,
+      this.searchMangaOk,
+      this.searchMangaError
+    );
+  }
+
+  searchMangaOk(result) {
+    this.setState({
+      isLoaded: true,
+      mangas: result
+    });
+  }
+
+  searchMangaError(error) {
+    this.setState({
+      isLoaded: true,
+      error: error
+    });
   }
 
   setAlertContent(param) {
@@ -47,38 +52,42 @@ export default class MangasGrid extends React.Component {
     const { error, isLoaded, mangas } = this.state;
     if (error) {
       return (
-        <div id="white-text">
-          {" "}
-          <i class="fas fa-exclamation-circle" /> Error: {error.message}
-        </div>
+        <AlertC
+          information={{
+            class: "danger",
+            content:
+              "Problème lors de la récupération des mangas. Veuillez ressayer."
+          }}
+        />
       );
     } else if (!isLoaded) {
       return (
         <div>
-          <i id="loading-icon" className="fas fa-spinner fa-spin fa-2x" />
+          <Loading />
         </div>
       );
     } else {
       return (
-        <>
+        <React.Fragment>
           <AlertC information={this.state.alertContent} />
+          <hr className="hr-separator"/>
           <div className="row row-eq-height">
             {mangas.map((manga, index) => {
               return (
-                <AuthConsumer>
-                  { ({ apiRoot}) =>
+                <AuthConsumer key={index}>
+                  {({ apiRoot, token, user }) => (
                     <Manga
-                    manga={manga}
-                    key={index}
-                    callback={this.setAlertContent.bind(this)}
-                  />
-                  }
-                  
+                      manga={manga}
+                      callback={this.setAlertContent.bind(this)}
+                      token={token}
+                      user={user}
+                    />
+                  )}
                 </AuthConsumer>
               );
             })}
           </div>
-        </>
+        </React.Fragment>
       );
     }
   }
